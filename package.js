@@ -1,7 +1,7 @@
 Package.describe({
   name: 'mozfet:autoform-materialize-nouislider2',
   summary: 'Dual value slider for autoform.',
-  version: '0.0.2',
+  version: '0.0.3',
   git: 'https://github.com/mozfet/meteor-autoform-nouislider'
 });
 
