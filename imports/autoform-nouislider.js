@@ -6,8 +6,8 @@ import 'nouislider/distribute/nouislider.css';
 import './autoform-nouislider.html';
 import './autoform-nouislider.css';
 
-AutoForm.addInputType('noUiSlider', {
-  template: 'afNoUiSlider',
+AutoForm.addInputType('noUiSlider2', {
+  template: 'afNoUiSlider2',
   valueOut: function(){
     var slider = this.find('.nouislider')[0];
     var isDecimal = this.closest('.at-nouislider').data('decimal');
@@ -27,7 +27,7 @@ AutoForm.addInputType('noUiSlider', {
   }
 });
 
-Template.afNoUiSlider.helpers({
+Template.afNoUiSlider2.helpers({
   atts: function () {
     var data = Template.currentData(); // get data reactively
     var atts = data.atts;
@@ -91,7 +91,7 @@ var calculateOptions = function(data){
   return options;
 };
 
-Template.afNoUiSlider.rendered = function () {
+Template.afNoUiSlider2.rendered = function () {
   var template = this;
   var $s = template.$('.nouislider');
 
