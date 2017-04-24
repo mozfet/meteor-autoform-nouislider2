@@ -1,5 +1,5 @@
-autoform-nouislider for materializecss
-===================
+autoform-nouislider2 for materializecss
+====================
 
 AutoForm nouislider input type with materilizecss styling.
 
