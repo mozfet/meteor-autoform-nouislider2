@@ -331,14 +331,14 @@
   top: -16px;
   left: -22px;
   background-color: #26A69A;
-  border-radius: 20%;
+  /*border-radius: 20%;*/
   transition: border-radius .25s cubic-bezier(0.215, 0.610, 0.355, 1.000),
   transform .25s cubic-bezier(0.215, 0.610, 0.355, 1.000);
   transform: scale(.75);
   transform-origin: 50% 100%;
 }
 .noUi-target.noUi-horizontal .noUi-active .noUi-tooltip {
-  border-radius: 20%;
+  /*border-radius: 20%;*/
   transform: translate(-10px, -30px);
 }
 
