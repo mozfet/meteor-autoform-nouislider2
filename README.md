@@ -3,8 +3,10 @@ autoform-nouislider for materializecss
 
 AutoForm nouislider input type with materilizecss styling.
 
+Forked from mozfet:meteor-autoform-nouislider in order to provide alternative styling than the default from materilizeCSS.
+
 ## Setup
-`meteor add mozfet:autoform-nouislider`
+`meteor add mozfet:autoform-nouislider2`
 
 ## This package is part of a suite
 [mozfet:meteor-autoform-materialize](https://github.com/mozfet/meteor-autoform-materialize)
@@ -89,10 +91,11 @@ Show a label left and/or right of the slider
 ## Credits
 
 ### Forks
-We forked in order to upgrade dependancies for our suite and to add [MaterializeCSS](https://github.com/Dogfalo/materialize) styling.
+We forked and added this to the suite in order to upgrade to AutoForm 6.0.0 and to add [MaterializeCSS](https://github.com/Dogfalo/materialize) styling.
 
 Forked from [muqube:meteor-autoform-nouislider](https://github.com/muqube/meteor-autoform-nouislider) which forked from [elevatedevdesign:autoform-nouslider](https://github.com/ElevateDev/meteor-autoform-nouislider).
 
 ### Using
-1. [nouislider](https://github.com/leongersen/noUiSlider) v9.2.0
-2. [MaterializeCSS](https://github.com/Dogfalo/materialize) v0.98.2 - extras/noUiSlider
+1. [AutoForm](https://github.com/aldeed/meteor-autoform) v6.0.0
+2. [nouislider](https://github.com/leongersen/noUiSlider) v9.2.0
+3. [MaterializeCSS](https://github.com/Dogfalo/materialize) v0.98.2 - extras/noUiSlider
