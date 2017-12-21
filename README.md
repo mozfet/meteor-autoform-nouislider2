@@ -5,6 +5,8 @@ AutoForm nouislider input type with materilizecss styling.
 
 Forked from mozfet:meteor-autoform-nouislider in order to provide alternative styling than the default from materilizeCSS.
 
+> **Thank You** This suite of packages is maintained by [ExpertBox.com](http://www.ExpertBox.com) as a thank you to the Open Source community.
+
 ## Setup
 `meteor add mozfet:autoform-nouislider2`
 
