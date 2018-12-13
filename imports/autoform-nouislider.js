@@ -1,124 +1,157 @@
-/*jshint esversion: 6 */
+// imports
+import noUiSlider from 'nouislider'
+import { EJSON } from 'meteor/ejson'
+import './autoform-nouislider.html'
+import './materialize/nouislider'
+import './materialize/nouislider.css'
 
-/* global AutoForm, _, Template */
-import noUiSlider from 'nouislider';
-import 'nouislider/distribute/nouislider.css';
-import './autoform-nouislider.html';
-import './autoform-nouislider.css';
-
+// add autoform input type
 AutoForm.addInputType('noUiSlider2', {
   template: 'afNoUiSlider2',
   valueOut: function(){
-    var slider = this.find('.nouislider')[0];
-    var isDecimal = this.closest('.at-nouislider').data('decimal');
+    const slider = this.find('.nouislider')[0]
+    const isDecimal = this.closest('.at-nouislider').data('decimal')
 
-    if( this.attr('data-type') === 'Object' ){
-      var parser = (isDecimal)? parseFloat : parseInt;
-      var first = parser.call(null, slider.noUiSlider.get()[0]);
-      var second = parser.call(null, slider.noUiSlider.get()[1]);
-      var value = {
+    if (this.attr('data-type') === 'Object') {
+      const parser = (isDecimal)? parseFloat : parseInt
+      const first = parser.call(null, slider.noUiSlider.get()[0])
+      const second = parser.call(null, slider.noUiSlider.get()[1])
+      return {
         lower: first > second ? second : first,
         upper: first > second ? first : second
-      };
-      return value;
-    }else{
-      return slider.noUiSlider.get();
+      }
+    } else {
+      return slider.noUiSlider.get()
     }
   }
-});
+})
 
+// helpers
 Template.afNoUiSlider2.helpers({
-  atts: function () {
-    var data = Template.currentData(); // get data reactively
-    var atts = data.atts;
-    atts['data-type'] = data.schemaType.name;
-    if( atts['class'] ){
-      atts['class'] += ' at-nouislider';
-    }else{
-      atts['class'] = 'at-nouislider';
+  atts() {
+    const data = Template.currentData()
+    const atts = data.atts
+    atts['data-type'] = data.schemaType.name
+    if (atts['class']) {
+      atts['class'] += ' at-nouislider'
+    } else {
+      atts['class'] = 'at-nouislider'
     }
-
-    atts.doLabels = ( atts.labelLeft || atts.labelRight );
-
-    atts['data-decimal'] = data.decimal;
-
-    return _.omit(atts, 'noUiSliderOptions', 'noUiSlider_pipsOptions');
+    atts.doLabels = atts.labelLeft || atts.labelRight
+    atts['data-decimal'] = data.decimal
+    return _.omit(atts, 'noUiSliderOptions', 'noUiSlider_pipsOptions')
   }
-});
+})
 
-var calculateOptions = function(data){
-  var schemaMinMax = _.pick(data, 'max', 'min');
-  var autoformOptions = _.pick(data.atts || {}, 'max', 'min', 'step', 'start', 'range');
-  var noUiSliderOptions = (data.atts || {}).noUiSliderOptions;
+function calculateOptions (data) {
+  console.log('afNoUiSlider2 calculateOptions data:', data)
+  const schemaAtts = _.pick(data, 'min', 'max')
+  const autoformOptions = _.pick(data.atts || {}, 'min', 'max', 'step', 'start',
+      'range')
+  console.log('autoform options', autoformOptions)
+  const noUiSliderOptions = (data.atts || {}).noUiSliderOptions
+  const options = _.extend({}, schemaAtts, autoformOptions, noUiSliderOptions)
 
-  var options = _.extend({}, schemaMinMax, autoformOptions, noUiSliderOptions);
+  // override schema min and max if specified in autoform options
+  options.min = autoformOptions.min&&schemaAtts.min?autoformOptions.min:
+      options.min
+  options.max = autoformOptions.max&&schemaAtts.max?autoformOptions.max:
+      options.max
+  console.log(`min ${_.clone(options.min)} max ${_.clone(options.max)}`)
 
-  // Adjust data initialization based on schema type
-  if( options.start === undefined ){
-    if( data.schemaType.name === 'Object' ){
-      if( data.value && data.value.lower ){
+  // override nouislider with autoform options if defined
+  const override = key => {
+    const value = autoformOptions[key]
+    console.log(`override option ${key} with value ${value}`)
+    if (value) {
+      if (typeof value === 'string') {
+        try {
+          options[key] = EJSON.parse(value)
+        } catch (e) {
+          try {
+            const jsonArray = `{${key}: ${value}}`
+            options[key] = EJSON.parse(value)[key]
+          } catch (e) {
+            options[key] = value
+          }
+        }
+      }
+      else {
+        options[key] = value
+      }
+    }
+  }
+  override('start')
+  override('range')
+
+  // adjust data initialization based on schema type
+  if (options.start === undefined) {
+    if (data.schemaType.name === 'Object'){
+      if (data.value && data.value.lower){
         options.start = [
           data.value.lower,
           data.value.upper
-        ];
-      }else{
+        ]
+      } else {
         options.start = [
-          typeof data.min === 'number' ? data.min : 0,
-          typeof data.max === 'number' ? data.max : 100
-        ];
+          typeof options.min === 'number' ? options.min : 0,
+          typeof options.max === 'number' ? options.max : 100
+        ]
       }
-      options.connect = true;
-    }else{
-      options.start = data.value || 0;
+      options.connect = true
+    } else {
+      options.start = data.value || 0
     }
   }
 
-  if( options.range === undefined ){
+  if (options.range === undefined) {
     options.range = {
       min: typeof options.min === 'number' ? options.min : 0,
       max: typeof options.max === 'number' ? options.max : 100
-    };
+    }
   }
-
-  delete options.min;
-  delete options.max;
+  delete options.min
+  delete options.max
 
   // default step to 1 if not otherwise defined
   if( options.step === undefined ){
-    options.step = 1;
+    options.step = 1
   }
 
-  return options;
-};
+  // return options
+  console.log('afNoUiSlider2 options', _.clone(options))
+  return options
+}
 
+// on rendered
 Template.afNoUiSlider2.rendered = function () {
-  var template = this;
-  var $s = template.$('.nouislider');
+  const template = this
+  const $s = template.$('.nouislider')
+  const sliderElement = $s.get(0)
 
-  var setup = function(c){
-    var data = Template.currentData(); // get data reactively
-    var options = calculateOptions( data );
-    noUiSlider.create($s[0], options);
+  const setup = c => {
+    const data = Template.currentData()
+    const options = calculateOptions(data)
+    noUiSlider.create(sliderElement, options)
 
     if (c.firstRun) {
-      $s[0].noUiSlider.on('slide', function(){
-        // This is a trick to fool some logic in AutoForm that makes
-        // sure values have actually changed on whichever element
-        // emits a change event. Eventually AutoForm will give
-        // input types the control of indicating exactly when
-        // their value changes rather than relying on the change event
-        $s.parent()[0].value = JSON.stringify($s[0].noUiSlider.get());
-        $s.parent().change();
-        $s.data('changed','true');
-      });
+      sliderElement.noUiSlider.on('slide', function(){
+        /* This is a trick to fool some logic in AutoForm that makes
+           sure values have actually changed on whichever element
+           emits a change event. Eventually AutoForm will give
+           input types the control of indicating exactly when
+           their value changes rather than relying on the change event */
+        $s.parent()[0].value = JSON.stringify(sliderElement.noUiSlider.get())
+        $s.parent().change()
+        $s.data('changed','true')
+      })
     }
 
     if( data.atts.noUiSlider_pipsOptions ){
-      $s[0].noUiSlider.pips(
+      sliderElement.noUiSlider.pips(
           data.atts.noUiSlider_pipsOptions
-      );
+      )
     }
-  };
-
-  template.autorun( setup );
-};
+  }
+  template.autorun(setup)
+}
