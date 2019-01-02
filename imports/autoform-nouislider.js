@@ -1,8 +1,7 @@
 // imports
-import noUiSlider from 'nouislider'
 import { EJSON } from 'meteor/ejson'
 import './autoform-nouislider.html'
-import './materialize/nouislider'
+import noUiSlider from './materialize/nouislider.js'
 import './materialize/nouislider.css'
 
 // add autoform input type
@@ -124,9 +123,9 @@ function calculateOptions (data) {
 }
 
 // on rendered
-Template.afNoUiSlider2.rendered = function () {
-  const template = this
-  const $s = template.$('.nouislider')
+Template.afNoUiSlider2.onRendered(() => {
+  const instance = Template.instance()
+  const $s = instance.$('.nouislider')
   const sliderElement = $s.get(0)
 
   const setup = c => {
@@ -153,5 +152,5 @@ Template.afNoUiSlider2.rendered = function () {
       )
     }
   }
-  template.autorun(setup)
-}
+  instance.autorun(setup)
+})

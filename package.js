@@ -1,7 +1,7 @@
 Package.describe({
   name: 'mozfet:autoform-materialize-nouislider2',
   summary: 'Material styled slider for autoform.',
-  version: '1.0.0',
+  version: '1.0.1',
   git: 'https://github.com/mozfet/meteor-autoform-nouislider2'
 })
 
