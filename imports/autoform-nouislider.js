@@ -1,11 +1,11 @@
 // imports
 import { EJSON } from 'meteor/ejson'
 import './autoform-nouislider.html'
-import noUiSlider from './materialize/nouislider.js'
-import './materialize/nouislider.css'
+import noUiSlider from 'nouislider'
+import 'nouislider/distribute/nouislider.css'
 
 // add autoform input type
-AutoForm.addInputType('noUiSlider2', {
+AutoForm.addInputType('noUiSlider', {
   template: 'afNoUiSlider2',
   valueOut: function(){
     const slider = this.find('.nouislider')[0]

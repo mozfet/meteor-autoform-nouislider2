@@ -1,9 +1,0 @@
-.at-nouislider .nouislider-container {
-  display: flex;
-  align-items: center;
-}
-.at-nouislider .nouislider-container .nouislider {
-  margin: 0px 25px;
-  flex-basis: 100%;
-  flex-grow: 1;
-}

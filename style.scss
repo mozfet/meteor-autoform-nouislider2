@@ -1,0 +1,34 @@
+.noUi-handle {
+  box-shadow: none;
+  border: none;
+  border-radius: 0px;
+  background-color: #26A69A;
+}
+
+.noUi-handle::before {
+  content: none;
+}
+
+.noUi-handle::after {
+  content: none;
+}
+
+.noUi-handle:focus {
+  outline: none;
+}
+
+.noUi-horizontal {
+  box-shadow: none;
+  border-radius: 0px;
+  height: 5px;
+}
+
+.noUi-horizontal .noUi-handle {
+  top: -8px;
+  height: 20px;
+  width: 40px;
+}
+html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
+  right: -20px;
+  left: auto;
+}

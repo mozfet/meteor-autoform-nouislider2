@@ -1,11 +1,13 @@
 Package.describe({
   name: 'mozfet:autoform-materialize-nouislider2',
   summary: 'Material styled slider for autoform.',
-  version: '1.0.1',
+  version: '1.1.0',
   git: 'https://github.com/mozfet/meteor-autoform-nouislider2'
 })
 
 Npm.depends({
+  "wnumb": "1.1.0",
+  "nouislider": "12.1.0"
 })
 
 Package.onUse(function(api) {
@@ -16,5 +18,6 @@ Package.onUse(function(api) {
   api.use('aldeed:autoform@6.3.0');
   api.addFiles([
     'index.js',
+    'style.scss'
   ], 'client');
 })
