@@ -5,10 +5,10 @@ Package.describe({
   git: 'https://github.com/mozfet/meteor-autoform-nouislider2'
 })
 
-Npm.depends({
-  "wnumb": "1.1.0",
-  "nouislider": "12.1.0"
-})
+// Npm.depends({
+//   "wnumb": "1.1.0",
+//   "nouislider": "12.1.0"
+// })
 
 Package.onUse(function(api) {
   api.versionsFrom('METEOR@1.8');
@@ -16,8 +16,6 @@ Package.onUse(function(api) {
     'blaze@2.3.3'], 'client');
   api.use('fourseven:scss@4.10.0');
   api.use('aldeed:autoform@6.3.0');
-  api.addFiles([
-    'index.js',
-    'style.scss'
-  ], 'client');
+  api.addFiles('autoform-nouislider.js', 'client');
+  api.addFiles('style.scss', 'client', {isImport: true});
 })

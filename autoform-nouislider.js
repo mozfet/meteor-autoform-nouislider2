@@ -1,11 +1,10 @@
 // imports
 import { EJSON } from 'meteor/ejson'
 import './autoform-nouislider.html'
-import noUiSlider from 'nouislider'
-import 'nouislider/distribute/nouislider.css'
+import noUiSlider from './nouislider.js'
 
 // add autoform input type
-AutoForm.addInputType('noUiSlider', {
+AutoForm.addInputType('noUiSlider2', {
   template: 'afNoUiSlider2',
   valueOut: function(){
     const slider = this.find('.nouislider')[0]
@@ -43,7 +42,7 @@ Template.afNoUiSlider2.helpers({
 })
 
 function calculateOptions (data) {
-  console.log('afNoUiSlider2 calculateOptions data:', data)
+  // console.log('afNoUiSlider2 calculateOptions data:', data)
   const schemaAtts = _.pick(data, 'min', 'max')
   const autoformOptions = _.pick(data.atts || {}, 'min', 'max', 'step', 'start',
       'range')
@@ -56,13 +55,13 @@ function calculateOptions (data) {
       options.min
   options.max = autoformOptions.max&&schemaAtts.max?autoformOptions.max:
       options.max
-  console.log(`min ${_.clone(options.min)} max ${_.clone(options.max)}`)
+  // console.log(`min ${_.clone(options.min)} max ${_.clone(options.max)}`)
 
   // override nouislider with autoform options if defined
   const override = key => {
     const value = autoformOptions[key]
-    console.log(`override option ${key} with value ${value}`)
     if (value) {
+      // console.log(`override option ${key} with value ${value}`)
       if (typeof value === 'string') {
         try {
           options[key] = EJSON.parse(value)
@@ -116,6 +115,9 @@ function calculateOptions (data) {
   if( options.step === undefined ){
     options.step = 1
   }
+
+  // override css prefix so that it does not override default materialize styling
+  options.cssPrefix = "autoform-nouislider2-";
 
   // return options
   console.log('afNoUiSlider2 options', _.clone(options))

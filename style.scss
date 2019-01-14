@@ -1,35 +1,58 @@
-.noUi-handle {
+@import 'nouislider.scss';
+
+.autoform-nouislider2-handle {
   box-shadow: none;
   border: none;
   border-radius: 0px;
   background-color: #26A69A;
 }
 
-.noUi-handle::before {
+.autoform-nouislider2-handle::before {
   content: none;
 }
 
-.noUi-handle::after {
+.autoform-nouislider2-handle::after {
   content: none;
 }
 
-.noUi-handle:focus {
+.autoform-nouislider2-handle:focus {
   outline: none;
 }
 
-.noUi-horizontal {
+.autoform-nouislider2-horizontal {
   box-shadow: none;
   border-radius: 0px;
   height: 5px;
 }
 
-.noUi-horizontal .noUi-handle {
+.autoform-nouislider2-horizontal .autoform-nouislider2-handle {
   top: -8px;
   height: 20px;
   width: 40px;
 }
 
-html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
+html:not([dir="rtl"]) .autoform-nouislider2-horizontal .autoform-nouislider2-handle {
   right: -20px;
   left: auto;
+}
+
+.autoform-nouislider2-target.autoform-nouislider2-horizontal .autoform-nouislider2-tooltip {
+  position: absolute;
+  height: 27px;
+  width: 53px;
+  top: -7px;
+  left: -7px;
+  color: white;
+  background-color: #26A69A;
+  font-size: 14px;
+  border: none;
+  border-radius: 0px;
+  transition: transform .25s;
+  transform: scale(.75);
+  transform-origin: 50% 100%;
+}
+
+.autoform-nouislider2-target.autoform-nouislider2-horizontal .autoform-nouislider2-active .autoform-nouislider2-tooltip {
+  transition: transform .25s;
+  transform: scale(1.5) translate(0px, -25px);
 }
