@@ -128,31 +128,52 @@ function calculateOptions (data) {
 Template.afNoUiSlider2.onRendered(() => {
   const instance = Template.instance()
   const $s = instance.$('.nouislider')
-  const sliderElement = $s.get(0)
+  instance.sliderElement = $s.get(0)
 
+  // reactive anon function
   const setup = c => {
     const data = Template.currentData()
+
+    // if slider was already intialized
+    if (instance.sliderElement.noUiSlider) {
+
+      // destroy previous instance of the slider
+      console.log('destrying the ui slider that should not exist')
+      instance.sliderElement.noUiSlider.destroy()
+    }
+
+    // calculate options
     const options = calculateOptions(data)
-    noUiSlider.create(sliderElement, options)
+
+    // create slider
+    noUiSlider.create(instance.sliderElement, options)
 
     if (c.firstRun) {
-      sliderElement.noUiSlider.on('slide', function(){
+      instance.sliderElement.noUiSlider.on('slide', function(){
         /* This is a trick to fool some logic in AutoForm that makes
            sure values have actually changed on whichever element
            emits a change event. Eventually AutoForm will give
            input types the control of indicating exactly when
            their value changes rather than relying on the change event */
-        $s.parent()[0].value = JSON.stringify(sliderElement.noUiSlider.get())
+        $s.parent()[0].value = JSON.stringify(
+            instance.sliderElement.noUiSlider.get())
         $s.parent().change()
         $s.data('changed','true')
       })
     }
 
     if( data.atts.noUiSlider_pipsOptions ){
-      sliderElement.noUiSlider.pips(
-          data.atts.noUiSlider_pipsOptions
+      instance.sliderElement.noUiSlider.pips(
+        data.atts.noUiSlider_pipsOptions
       )
     }
   }
+
+  // autorun the reactive anon function
   instance.autorun(setup)
+})
+
+Template.afNoUiSlider2.onDestroyed(() => {
+  const instance = Template.instance()
+  instance.sliderElement.noUiSlider.destroy()
 })
